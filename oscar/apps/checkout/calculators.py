@@ -14,11 +14,18 @@ class OrderTotalCalculator(object):
         self.request = request
 
     def calculate(self, basket, shipping_method, **kwargs):
-        excl_tax = basket.total_excl_tax + shipping_method.charge_excl_tax
-        if basket.is_tax_known and shipping_method.is_tax_known:
-            incl_tax = basket.total_incl_tax + shipping_method.charge_incl_tax
+        if shipping_method is None:
+            excl_tax = basket.total_excl_tax
+            if basket.is_tax_known:
+                incl_tax = basket.total_incl_tax
+            else:
+                incl_tax = None
         else:
-            incl_tax = None
+            excl_tax = basket.total_excl_tax + shipping_method.charge_excl_tax
+            if basket.is_tax_known and shipping_method.is_tax_known:
+                incl_tax = basket.total_incl_tax + shipping_method.charge_incl_tax
+            else:
+                incl_tax = None
         return prices.Price(
             currency=basket.currency,
             excl_tax=excl_tax, incl_tax=incl_tax)
