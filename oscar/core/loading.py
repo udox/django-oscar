@@ -44,11 +44,8 @@ def get_classes(module_label, classnames):
     # App must be local - check if module is in local app (it could be in
     # oscar's)
     app_label = module_label.split('.')[0]
-    if '.' in app_module_path:
-        base_package = app_module_path.rsplit('.' + app_label, 1)[0]
-        local_app = "%s.%s" % (base_package, module_label)
-    else:
-        local_app = module_label
+    # https://groups.google.com/forum/#!topic/django-oscar/sW7t_Y_b8GE
+    local_app = module_label
     try:
         imported_local_module = __import__(local_app, fromlist=classnames)
     except ImportError:
