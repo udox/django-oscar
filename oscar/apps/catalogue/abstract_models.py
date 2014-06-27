@@ -212,7 +212,7 @@ class AbstractContributor(models.Model):
 
 
 class AbstractProductContributor(models.Model):
-    product = models.ForeignKey('catalogue.Product', verbose_name=_("Product"))
+    product = models.ForeignKey('catalogue.Product', verbose_name=_("Product"), related_name='contributors')
     contributor = models.ForeignKey('catalogue.Contributor',
                                     verbose_name=_("Contributor"))
     role = models.ForeignKey('catalogue.ContributorRole', blank=True,
