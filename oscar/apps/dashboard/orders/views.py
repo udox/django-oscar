@@ -148,7 +148,7 @@ class OrderListView(ListView, BulkEditMixin):
 
             filter = Q(user__first_name__istartswith=parts[0]) |\
                      Q(user__last_name__istartswith=parts[1])
-            if allow_anon:
+            if allow_anon or True: # We don't want to set OSCAR_ALLOW_ANON_CHECKOUT to true but we do want this
                 filter |= Q(billing_address__first_name__istartswith=parts[0]) |\
                           Q(shipping_address__first_name__istartswith=parts[0]) |\
                           Q(billing_address__last_name__istartswith=parts[1]) |\
